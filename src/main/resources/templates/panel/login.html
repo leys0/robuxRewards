@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full">
+<html lang="pt-BR" class="h-full" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,27 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        darkBg: '#0b0f19',
-                        cardBg: '#131b2e',
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                            DEFAULT: '#f59e0b'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -64,7 +43,7 @@
         <span id="error-message">Credenciais inválidas. Tente novamente.</span>
     </div>
 
-    <form class="mt-8 space-y-6" action="/admin/login" method="POST">
+    <form class="mt-8 space-y-6" action="/login" method="POST">
         <div class="space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1.5" for="username">Usuário ou E-mail</label>
@@ -74,7 +53,7 @@
                 </span>
                     <input id="username" name="username" type="text" required
                            class="block w-full rounded-xl bg-[#0b0f19] border border-gray-800 px-4 py-3 pl-11 text-white placeholder-gray-500 focus:border-amber-500 focus:outline-none glow-gold transition duration-200 text-sm"
-                           placeholder="admin@robux.com">
+                           placeholder="user@robux.com">
                 </div>
             </div>
 

@@ -1,0 +1,683 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #0b0b0e;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(245, 166, 35, 0.08) 0%, rgba(11, 11, 14, 0) 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #f5a623;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245, 166, 35, 0.1);
+}
+
+.logo-icon div {
+    width: 10px;
+    height: 10px;
+    background: #f5a623;
+    transform: rotate(0deg);
+}
+
+.logo-text {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+
+.logo-text span {
+    color: #f5a623;
+}
+
+.status-online {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #a0a0ab;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 20px 40px;
+    z-index: 10;
+    flex: 1;
+}
+
+.mission-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 650px;
+    font-size: 11px;
+    color: #a0a0ab;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.mission-header span:first-child {
+    position: relative;
+}
+
+.mission-header span:first-child::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 30px;
+    height: 2px;
+    background: #f5a623;
+}
+
+h1 {
+    font-size: 38px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+h1 span {
+    color: #f5a623;
+}
+
+.subtitle {
+    color: #8b8b9e;
+    font-size: 14px;
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+/* Barra de progresso com 5 passos */
+.progress-container {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background-color: #1a1a24;
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+}
+
+.progress-bar.active {
+    background-color: #f5a623;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.4);
+}
+
+.step-indicator {
+    font-size: 11px;
+    color: #f5a623;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 32px;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+}
+
+/* Modal Card */
+.modal-card {
+    background: #121217;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 650px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Etapa 1 */
+.input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.input-label {
+    font-size: 14px;
+    color: #d1d1db;
+    text-align: center;
+    font-weight: 500;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid #8b8b9e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-icon div {
+    width: 6px;
+    height: 6px;
+    background: #8b8b9e;
+}
+
+.input-field {
+    width: 100%;
+    background: #0b0b0e;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 16px 16px 16px 48px;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #f5a623;
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.15);
+}
+
+.btn-primary {
+    width: 100%;
+    background: linear-gradient(135deg, #f5a623 0%, #e09012 100%);
+    color: #0b0b0e;
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+}
+
+.btn-primary:disabled {
+    background: #1f1f2e;
+    color: #5a5a6e;
+    cursor: not-allowed;
+    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Etapa 2: É você? */
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #f5a623;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245, 166, 35, 0.05);
+    margin: 10px 0 20px;
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.2);
+}
+
+.avatar-diamond {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #f5a623;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-diamond div {
+    width: 10px;
+    height: 10px;
+    background: #f5a623;
+}
+
+.account-name {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.account-found {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #22c55e;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.button-row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.btn-secondary {
+    flex: 1;
+    background: #1a1a24;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: #242433;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Etapa 3: Quantos Robux? */
+.steps-instruction {
+    display: flex;
+    justify-content: space-between;
+    background: #0b0b0e;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 14px 20px;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #8b8b9e;
+    text-align: center;
+}
+
+.step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1a1a24;
+    color: #f5a623;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 11px;
+    border: 1px solid rgba(245, 166, 35, 0.2);
+}
+
+.robux-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.robux-card {
+    background: #0b0b0e;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.robux-card:hover {
+    border-color: rgba(245, 166, 35, 0.4);
+    transform: translateY(-2px);
+}
+
+.robux-card.selected {
+    border-color: #f5a623;
+    background: rgba(245, 166, 35, 0.05);
+    box-shadow: 0 0 15px rgba(245, 166, 35, 0.15);
+}
+
+.robux-card-icon {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid #f5a623;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245, 166, 35, 0.1);
+    margin-bottom: 6px;
+}
+
+.robux-card-icon div {
+    width: 8px;
+    height: 8px;
+    background: #f5a623;
+}
+
+.robux-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.robux-label {
+    font-size: 10px;
+    color: #8b8b9e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Etapa 4: Missão */
+.mission-user-tag {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0b0b0e;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 12px 16px;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.mission-user-tag span:last-child {
+    color: #f5a623;
+    font-weight: 700;
+}
+
+.instruction-step-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.instruction-step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(245, 166, 35, 0.15);
+    color: #f5a623;
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+.instruction-step-content h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.instruction-step-content p {
+    font-size: 12px;
+    color: #8b8b9e;
+    line-height: 1.4;
+}
+
+.print-preview-box {
+    background: #0b0b0e;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    border-radius: 12px;
+    padding: 16px;
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.print-preview-title {
+    font-size: 11px;
+    color: #22c55e;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    align-self: flex-start;
+}
+
+.print-mockup-img {
+    width: 100%;
+    max-width: 220px;
+    height: 160px;
+    background: linear-gradient(135deg, #1f1f2e 0%, #121217 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.print-mockup-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+}
+
+.print-guidelines {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.guideline-card {
+    background: #0b0b0e;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.guideline-card.valid {
+    border-left: 3px solid #22c55e;
+}
+
+.guideline-card.invalid {
+    border-left: 3px solid #ef4444;
+}
+
+.guideline-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.guideline-card.valid .guideline-title { color: #22c55e; }
+.guideline-card.invalid .guideline-title { color: #ef4444; }
+.guideline-desc { color: #8b8b9e; font-size: 10px; }
+
+.mission-actions-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #8b8b9e;
+}
+
+.action-link-btn {
+    background: none;
+    border: none;
+    color: #8b8b9e;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+}
+
+.action-link-btn:hover {
+    color: #fff;
+}
+
+/* Etapa 5: Envio do Print */
+.profile-highlight-box {
+    background: #0b0b0e;
+    border: 1px solid rgba(245, 166, 35, 0.4);
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    margin: 20px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.1);
+}
+
+.profile-tag-large {
+    font-size: 22px;
+    font-weight: 800;
+    color: #f5a623;
+    letter-spacing: 0.5px;
+    background: rgba(245, 166, 35, 0.08);
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px dashed rgba(245, 166, 35, 0.4);
+}
+
+.back-btn-text {
+    background: none;
+    border: none;
+    color: #8b8b9e;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 16px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.back-btn-text:hover {
+    color: #fff;
+}
+
+.security-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #8b8b9e;
+    margin-top: 24px;
+}
+
+footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    color: #5a5a6e;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    line-height: 1.5;
+}
+
+.hidden {
+    display: none !important;
+}

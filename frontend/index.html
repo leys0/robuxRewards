@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robux Rewards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <div class="logo-icon">
+            <div></div>
+        </div>
+        <div class="logo-text">ROBUX <span>REWARDS</span></div>
+    </div>
+    <div class="status-online">
+        <div class="status-dot"></div>
+        SISTEMA ONLINE
+    </div>
+</header>
+
+<main>
+    <div class="mission-header">
+        <span>Missão TikTok Lite</span>
+        <span>Meu Pedido</span>
+    </div>
+
+    <h1>RESGATE SEUS <span>ROBUX</span></h1>
+    <div class="subtitle" id="subtitle-text">Complete missões rápidas e receba na sua conta do Roblox.</div>
+
+    <div class="progress-container" id="progress-container">
+        <div class="progress-bar active"></div>
+        <div class="progress-bar"></div>
+        <div class="progress-bar"></div>
+        <div class="progress-bar"></div>
+        <div class="progress-bar"></div>
+    </div>
+    <div class="step-indicator" id="step-indicator">Etapa 1 de 5 · Nick</div>
+
+    <div class="modal-card" id="step-1-modal">
+        <div class="input-group">
+            <label class="input-label">Digite seu nick do Roblox</label>
+            <div class="input-wrapper">
+                <div class="input-icon"><div></div></div>
+                <input type="text" id="roblox-nick" class="input-field" placeholder="ex: Builderman" autocomplete="off" oninput="checkNickInput()">
+            </div>
+        </div>
+        <button class="btn-primary" id="btn-search-account" disabled onclick="goToStep(2)">Buscar minha conta</button>
+
+        <div class="security-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Conexão segura · Nunca pedimos sua senha
+        </div>
+    </div>
+
+    <div class="modal-card hidden" id="step-2-modal">
+        <div style="font-size: 15px; font-weight: 600; color: #d1d1db; margin-bottom: 4px;">É você?</div>
+        <div style="font-size: 12px; color: #8b8b9e; margin-bottom: 12px; text-align: center;">Os Robux vão para esta conta. Confira antes de continuar.</div>
+
+        <div class="avatar-circle">
+            <div class="avatar-diamond">
+                <div></div>
+            </div>
+        </div>
+
+        <div class="account-name" id="display-nick">@macumbinha</div>
+        <div class="account-found">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Conta encontrada no Roblox
+        </div>
+
+        <div class="button-row">
+            <button class="btn-secondary" onclick="goToStep(1)">Não, corrigir</button>
+            <button class="btn-primary" onclick="goToStep(3)" style="flex: 1; box-shadow: none;">Sim, sou eu</button>
+        </div>
+
+        <div class="security-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Conexão segura · Nunca pedimos sua senha
+        </div>
+    </div>
+
+    <div class="modal-card hidden" id="step-3-modal">
+        <div style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">Quantos Robux?</div>
+        <div style="font-size: 12px; color: #8b8b9e; margin-bottom: 16px; text-align: center;">A missão é a mesma qualquer valor. Escolha com calma.</div>
+
+        <div class="steps-instruction">
+            <div class="step-item">
+                <div class="step-num">1</div>
+                Girar a roleta
+            </div>
+            <div class="step-item">
+                <div class="step-num">2</div>
+                Tirar print
+            </div>
+            <div class="step-item">
+                <div class="step-num">3</div>
+                Enviar aqui
+            </div>
+        </div>
+        <div style="font-size: 10px; color: #7a7a8e; text-transform: uppercase; margin-bottom: 16px; font-weight: 600; letter-spacing: 0.5px;">Seus Robux só são pedidos quando você envia o print aqui.</div>
+
+        <div class="robux-grid">
+            <div class="robux-card" onclick="selectRobux(this, '500')">
+                <div class="robux-card-icon"><div></div></div>
+                <div class="robux-value">5.000</div>
+                <div class="robux-label">Robux</div>
+            </div>
+            <div class="robux-card" onclick="selectRobux(this, '10.000')">
+                <div class="robux-card-icon"><div></div></div>
+                <div class="robux-value">10.000</div>
+                <div class="robux-label">Robux</div>
+            </div>
+            <div class="robux-card" onclick="selectRobux(this, '20.000')">
+                <div class="robux-card-icon"><div></div></div>
+                <div class="robux-value">20.000</div>
+                <div class="robux-label">Robux</div>
+            </div>
+        </div>
+
+        <button class="btn-primary" id="btn-choose-amount" disabled onclick="goToStep(4)">Escolha uma quantia</button>
+        <button class="back-btn-text" onclick="goToStep(2)">← Voltar</button>
+
+        <div class="security-badge" style="margin-top: 16px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Conexão segura · Nunca pedimos sua senha
+        </div>
+    </div>
+
+    <div class="modal-card hidden" id="step-4-modal">
+        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">Missão TikTok Lite</div>
+        <div style="font-size: 12px; color: #8b8b9e; margin-bottom: 16px; text-align: center;">São só 3 passos. Leva menos de 2 minutos.</div>
+
+        <div class="mission-user-tag">
+            <span id="mission-display-nick">@macumbinha</span>
+            <span id="mission-display-robux">10.000 Robux</span>
+        </div>
+
+        <div class="steps-instruction" style="margin-bottom: 20px;">
+            <div class="step-item">
+                <div class="step-num">1</div>
+                Girar a roleta
+            </div>
+            <div class="step-item">
+                <div class="step-num">2</div>
+                Tirar print
+            </div>
+            <div class="step-item">
+                <div class="step-num">3</div>
+                Enviar aqui
+            </div>
+        </div>
+
+        <div class="instruction-step-row">
+            <div class="instruction-step-num">1</div>
+            <div class="instruction-step-content">
+                <h4>Jogue o Gol de Prêmios</h4>
+                <p>Toque no botão dourado, entre no TikTok Lite e faça o chute.</p>
+            </div>
+        </div>
+
+        <div class="instruction-step-row">
+            <div class="instruction-step-num">2</div>
+            <div class="instruction-step-content">
+                <h4>Tire print na hora</h4>
+                <p>Quando aparecer <b>"Você ajudou a ganhar recompensas"</b>, tire print logo.</p>
+            </div>
+        </div>
+
+        <div class="instruction-step-row">
+            <div class="instruction-step-num">3</div>
+            <div class="instruction-step-content">
+                <h4>Volte e envie aqui</h4>
+                <p>Os Robux só são pedidos quando você envia o print aqui.</p>
+            </div>
+        </div>
+
+        <div class="print-preview-box">
+            <div class="print-preview-title">✓ Seu print precisa ficar assim</div>
+            <div class="print-mockup-img">
+                <img src="../../robuxsite/src/image/robux.png" alt="Exemplo de print">
+            </div>
+        </div>
+
+        <div class="print-guidelines">
+            <div class="guideline-card valid">
+                <div class="guideline-title">✓ Envie</div>
+                <div class="guideline-desc"><b>"Você ajudou gg***y"</b> na roleta ou o pop-up completo do chute</div>
+            </div>
+            <div class="guideline-card invalid">
+                <div class="guideline-title">✕ Não envie</div>
+                <div class="guideline-desc">Print deste site, do convite ou de tela de erro</div>
+            </div>
+        </div>
+
+        <a href="https://google.com" target="_blank" class="btn-primary" id="btn-go-mission">
+            Ir jogar o Gol de Prêmios
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+
+        <div class="mission-actions-row">
+            <button class="action-link-btn" onclick="copyLink()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span id="copy-text">Copiar link</span>
+            </button>
+            <button class="action-link-btn" onclick="goToStep(5)" style="color: #f5a623; font-weight: 700;">Já tenho o print →</button>
+        </div>
+
+        <button class="back-btn-text" onclick="goToStep(3)">← Voltar</button>
+
+        <div class="security-badge" style="margin-top: 20px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Conexão segura · Nunca pedimos sua senha
+        </div>
+    </div>
+
+    <div class="modal-card hidden" id="step-5-modal">
+        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">Enviar Comprovante</div>
+        <div style="font-size: 12px; color: #8b8b9e; margin-bottom: 16px; text-align: center;">Quase lá! Siga a instrução final para receber seus Robux.</div>
+
+        <div class="instruction-step-row" style="margin-top: 10px;">
+            <div class="instruction-step-num">!</div>
+            <div class="instruction-step-content">
+                <h4>Envie o print no perfil oficial do TikTok</h4>
+                <p>Para validar sua recompensa e liberar os Robux para o seu nick (<b id="final-user-nick">@macumbinha</b>), envie o print da missão concluída diretamente no chat do perfil indicado abaixo:</p>
+            </div>
+        </div>
+
+        <div class="profile-highlight-box">
+            <div style="font-size: 11px; text-transform: uppercase; color: #8b8b9e; font-weight: 600; letter-spacing: 0.5px;">Perfil de envio do print:</div>
+            <div class="profile-tag-large" id="tiktok-profile-handle">@RobuxRewardsOficial</div>
+            <button class="btn-primary" onclick="copyProfile()" style="padding: 10px 20px; font-size: 13px; max-width: 220px; margin-top: 4px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span id="copy-profile-text">Copiar Perfil</span>
+            </button>
+        </div>
+
+        <div style="font-size: 11px; color: #8b8b9e; text-align: center; line-height: 1.5; margin-bottom: 20px;">
+            ⏱️ Após o envio, nossa equipe validará o print em até 24 horas.<br>
+            Os Robux serão depositados automaticamente na sua conta do Roblox.
+        </div>
+
+        <button class="btn-primary" onclick="copyProfile()" style="padding: 10px 20px; font-size: 13px; max-width: 220px; margin-top: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span id="copy-profile-text">Concluir</span>
+        </button>
+
+        <div class="security-badge" style="margin-top: 20px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Conexão segura · Nunca pedimos sua senha
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    Plataforma independente. Não temos vínculo, parceria ou afiliação com Roblox Corporation ou TikTok.<br>
+    Usamos apenas informações públicas de perfil e nunca pedimos sua senha.
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -82,3 +82,16 @@ function copyProfile() {
         }, 2000);
     });
 }
+
+function showSuccessMessage() {
+    document.getElementById('step-5-content').style.display = 'none';
+    document.getElementById('success-message-box').classList.remove('hidden');
+    
+    const progressBars = document.querySelectorAll('.progress-bar');
+    progressBars.forEach(bar => bar.classList.add('active'));
+
+    const stepIndicator = document.getElementById('step-indicator');
+    if (stepIndicator) {
+        stepIndicator.innerText = "Processo Concluído!";
+    }
+}

@@ -218,35 +218,52 @@
     </div>
 
     <div class="modal-card hidden" id="step-5-modal">
-        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">Enviar Comprovante</div>
-        <div style="font-size: 12px; color: #8b8b9e; margin-bottom: 16px; text-align: center;">Quase lá! Siga a instrução final para receber seus Robux.</div>
+        <div id="step-5-content">
+            <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">Enviar Comprovante</div>
+            <div style="font-size: 12px; color: #8b8b9e; margin-bottom: 16px; text-align: center;">Quase lá! Siga a instrução final para receber seus Robux.</div>
 
-        <div class="instruction-step-row" style="margin-top: 10px;">
-            <div class="instruction-step-num">!</div>
-            <div class="instruction-step-content">
-                <h4>Envie o print no perfil oficial do TikTok</h4>
-                <p>Para validar sua recompensa e liberar os Robux para o seu nick (<b id="final-user-nick">@macumbinha</b>), envie o print da missão concluída diretamente no chat do perfil indicado abaixo:</p>
+            <div class="instruction-step-row" style="margin-top: 10px;">
+                <div class="instruction-step-num">!</div>
+                <div class="instruction-step-content">
+                    <h4>Envie o print no perfil oficial do TikTok</h4>
+                    <p>Para validar sua recompensa e liberar os Robux para o seu nick (<b id="final-user-nick">@macumbinha</b>), envie o print da missão concluída diretamente no chat do perfil indicado abaixo:</p>
+                </div>
             </div>
+
+            <div class="profile-highlight-box">
+                <div style="font-size: 11px; text-transform: uppercase; color: #8b8b9e; font-weight: 600; letter-spacing: 0.5px;">Perfil de envio do print:</div>
+                <div class="profile-tag-large" id="tiktok-profile-handle">@migudubs</div>
+                <div class="print-mockup-img">
+                    <img src="image/perfil.jpg" alt="Exemplo de print">
+                </div>
+                <button class="btn-primary" onclick="copyProfile()" style="padding: 10px 20px; font-size: 13px; max-width: 220px; margin-top: 4px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span id="copy-profile-text">Copiar Perfil</span>
+                </button>
+            </div>
+
+            <div style="font-size: 11px; color: #8b8b9e; text-align: center; line-height: 1.5; margin-bottom: 20px;">
+                ⏱️ Após o envio, nossa equipe validará o print em até 24 horas.<br>
+                Os Robux serão depositados automaticamente na sua conta do Roblox.
+            </div>
+
+            <button class="btn-primary" id="btn-send" onclick="showSuccessMessage()">Concluir</button>
+            <div class="mission-actions-row">
+                <button class="back-btn-text" onclick="goToStep(4)">← Voltar</button>
+            </div>
+
         </div>
 
-        <div class="profile-highlight-box">
-            <div style="font-size: 11px; text-transform: uppercase; color: #8b8b9e; font-weight: 600; letter-spacing: 0.5px;">Perfil de envio do print:</div>
-            <div class="profile-tag-large" id="tiktok-profile-handle">@RobuxRewardsOficial</div>
-            <button class="btn-primary" onclick="copyProfile()" style="padding: 10px 20px; font-size: 13px; max-width: 220px; margin-top: 4px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                <span id="copy-profile-text">Copiar Perfil</span>
-            </button>
+        <div id="success-message-box" class="hidden" style="text-align: center; padding: 20px 0;">
+            <div style="width: 56px; height: 56px; background: rgba(46, 204, 113, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; color: #2ecc71;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px;">Processo Finalizado!</div>
+            <div style="font-size: 13px; color: #b0b0c0; line-height: 1.6; margin-bottom: 24px;">
+                Recebemos sua solicitação com sucesso! Se estiver tudo certo com o seu comprovante, os Robux chegarão na sua conta em <b>até 2 dias</b>.
+            </div>
+            <button class="btn-primary" onclick="location.reload()" style="max-width: 200px; margin: 0 auto;">Voltar ao início</button>
         </div>
-
-        <div style="font-size: 11px; color: #8b8b9e; text-align: center; line-height: 1.5; margin-bottom: 20px;">
-            ⏱️ Após o envio, nossa equipe validará o print em até 24 horas.<br>
-            Os Robux serão depositados automaticamente na sua conta do Roblox.
-        </div>
-
-        <button class="btn-primary" onclick="copyProfile()" style="padding: 10px 20px; font-size: 13px; max-width: 220px; margin-top: 4px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            <span id="copy-profile-text">Concluir</span>
-        </button>
 
         <div class="security-badge" style="margin-top: 20px;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>

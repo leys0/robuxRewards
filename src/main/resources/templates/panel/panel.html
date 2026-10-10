@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - Robux Rewards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+        }
+        .glow-gold:focus {
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col md:flex-row overflow-hidden bg-darkBg">
+    <aside class="w-full md:w-64 bg-sidebarBg border-r border-amber-500/10 flex flex-col justify-between z-20">
+        <div>
+            <div class="h-20 flex items-center px-6 gap-3 border-b border-gray-800/60">
+                <div class="w-10 h-10 rounded-xl gold-gradient flex items-center justify-center shadow-lg shadow-amber-500/20">
+                    <i class="fa-solid fa-shield-halved text-darkBg text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-white text-base tracking-wide">Robux Rewards</h1>
+                    <p class="text-xs text-amber-500 font-medium">Painel Admin</p>
+                </div>
+            </div>
+
+            <nav class="p-4 space-y-1.5">
+                <a href="#" onclick="switchTab('config', event)" id="nav-config"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 transition">
+                    <i class="fa-solid fa-sliders w-5"></i>
+                    Configurações
+                </a>
+                <a href="#" onclick="switchTab('analytics', event)" id="nav-analytics"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800/40 hover:text-white transition">
+                    <i class="fa-solid fa-chart-line w-5"></i>
+                    Estatísticas & Cliques
+                </a>
+                <a th:if="${isMaster}" href="#" onclick="switchTab('security', event)" id="nav-security"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800/40 hover:text-white transition">
+                    <i class="fa-solid fa-lock w-5"></i>
+                    Segurança & Senha
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-4 border-t border-gray-800/60">
+            <a href="/logout"
+               class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 text-sm font-medium transition">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Sair do Painel
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="h-20 bg-cardBg/60 backdrop-blur-md border-b border-amber-500/10 flex items-center justify-between px-6 sm:px-8 z-10 flex-shrink-0">
+            <div class="flex items-center gap-4">
+                <h2 id="page-title" class="text-xl sm:text-2xl font-bold text-white">Configurações</h2>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Sistema Online
+                </div>
+                <div class="flex items-center gap-3 pl-4 border-l border-gray-800">
+                    <div class="w-9 h-9 rounded-full gold-gradient flex items-center justify-center font-bold text-darkBg text-sm" th:text="${#strings.toUpperCase(#strings.substring(username, 0, 2))}">
+                        AD
+                    </div>
+                    <div class="hidden sm:block text-left">
+                        <p class="text-xs font-semibold text-white" th:text="${username}">Administrador</p>
+                        <p class="text-[10px] text-gray-400" th:text="${userRole}">Master</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
+            <div id="toast-banner"
+                 th:class="${param.success} ? 'rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-sm text-emerald-400 flex items-center justify-between shadow-lg mb-4' : 'hidden rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-sm text-emerald-400 flex items-center justify-between shadow-lg mb-4'">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-lg"></i>
+                    <span id="toast-message">Alterações salvas com sucesso! Sincronizado em tempo real.</span>
+                </div>
+                <button onclick="hideToast()" class="text-emerald-400 hover:text-emerald-300">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- TAB 1: CONFIGURAÇÕES DA MISSÃO -->
+            <section id="tab-content-config" class="space-y-6 max-w-4xl"
+                     th:with="hasMission=${config != null && config.missionLink != null && !config.missionLink.isEmpty()},
+                              hasTtk=${config != null && config.ttkUser != null && !config.ttkUser.isEmpty()}">
+
+                <div class="bg-cardBg rounded-2xl border border-amber-500/20 p-6 sm:p-8 shadow-xl">
+                    <div class="flex items-center justify-between pb-6 border-b border-gray-800">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Parâmetros da Missão</h3>
+                            <p class="text-xs text-gray-400 mt-1">Configure os links que os usuários receberão ao realizar as etapas no site.</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+                    </div>
+
+                    <form id="config-form" action="/panel/configs" method="POST" class="space-y-6 pt-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Link da Missão (TikTok Lite)</label>
+                            <div th:if="${hasMission}" id="view-mission" class="flex items-center justify-between p-3.5 text-amber-400 text-sm">
+                                <span class="break-all font-medium" th:text="${config.missionLink}"></span>
+                                <button type="button" onclick="editField('mission')" class="text-amber-400 hover:text-amber-300 p-2 transition" title="Editar">
+                                    <i class="fa-solid fa-pen-to-square text-base"></i>
+                                </button>
+                            </div>
+
+                            <div class="relative" id="input-container-mission" th:classappend="${hasMission} ? 'hidden mt-2' : ''">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-500"><i class="fa-solid fa-globe"></i></span>
+                                <input type="url" id="missionLink" name="missionLink" required
+                                       th:value="${config != null} ? ${config.missionLink} : ''"
+                                       oninput="checkChanges()"
+                                       class="block w-full rounded-xl bg-[#0b0f19] border border-gray-800 px-4 py-3.5 pl-11 text-white placeholder-gray-500 focus:border-amber-500 focus:outline-none glow-gold transition text-sm"
+                                       placeholder="https://seu-link-do-ttk-lite.com/">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Perfil do TikTok</label>
+                            <div th:if="${hasTtk}" id="view-ttk" class="flex items-center justify-between p-3.5 text-amber-400 text-sm">
+                                <span class="font-medium" th:text="${config.ttkUser}"></span>
+                                <button type="button" onclick="editField('ttk')" class="text-amber-400 hover:text-amber-300 p-2 transition" title="Editar">
+                                    <i class="fa-solid fa-pen-to-square text-base"></i>
+                                </button>
+                            </div>
+
+                            <div class="relative" id="input-container-ttk" th:classappend="${hasTtk} ? 'hidden mt-2' : ''">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-500"><i class="fa-brands fa-tiktok"></i></span>
+                                <input type="text" id="tiktokProfile" name="ttkUser" required
+                                       th:value="${config != null} ? ${config.ttkUser} : ''"
+                                       oninput="checkChanges()"
+                                       class="block w-full rounded-xl bg-[#0b0f19] border border-gray-800 px-4 py-3.5 pl-11 text-white placeholder-gray-500 focus:border-amber-500 focus:outline-none glow-gold transition text-sm"
+                                       placeholder="@robuxrewards_oficial">
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex items-center justify-end gap-4 border-t border-gray-800">
+                            <button type="submit" id="save-btn" disabled
+                                    class="px-6 py-3 rounded-xl gold-gradient text-darkBg text-sm font-bold opacity-50 cursor-not-allowed shadow-lg transition flex items-center gap-2">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="tab-content-analytics" class="space-y-6 max-w-4xl hidden">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="bg-cardBg p-6 rounded-2xl border border-amber-500/20 shadow-xl">
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs font-medium text-gray-400">Total de Acessos</p>
+                            <span class="p-2 rounded-xl bg-amber-500/10 text-amber-400"><i class="fa-solid fa-users"></i></span>
+                        </div>
+                        <h4 class="text-3xl font-bold text-white mt-4" id="stat-views">1,482</h4>
+                        <p class="text-xs text-emerald-400 mt-2"><i class="fa-solid fa-arrow-trend-up">+12% hoje</i></p>
+                    </div>
+                    <div class="bg-cardBg p-6 rounded-2xl border border-amber-500/20 shadow-xl">
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs font-medium text-gray-400">Cliques no Link</p>
+                            <span class="p-2 rounded-xl bg-amber-500/10 text-amber-400"><i class="fa-solid fa-mouse-pointer"></i></span>
+                        </div>
+                        <h4 class="text-3xl font-bold text-white mt-4" id="stat-clicks">643</h4>
+                        <p class="text-xs text-emerald-400 mt-2"><i class="fa-solid fa-arrow-trend-up">+8% hoje</i></p>
+                    </div>
+                    <div class="bg-cardBg p-6 rounded-2xl border border-amber-500/20 shadow-xl">
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs font-medium text-gray-400">Missões Concluídas</p>
+                            <span class="p-2 rounded-xl bg-amber-500/10 text-amber-400"><i class="fa-solid fa-circle-check"></i></span>
+                        </div>
+                        <h4 class="text-3xl font-bold text-white mt-4" id="stat-completed">319</h4>
+                        <p class="text-xs text-emerald-400 mt-2"><i class="fa-solid fa-arrow-trend-up">+19% hoje</i></p>
+                    </div>
+                </div>
+
+                <div class="bg-cardBg rounded-2xl border border-amber-500/20 p-6 sm:p-8 shadow-xl">
+                    <h3 class="text-lg font-bold text-white mb-2">Relatório de Atividades Recentes</h3>
+                    <p class="text-xs text-gray-400 mb-6">Últimas interações registradas no sistema em tempo real.</p>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 rounded-xl bg-[#0b0f19] border border-gray-800 text-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-white">Missão Concluída (10.000 Robux)</p>
+                                    <p class="text-xs text-gray-500">Usuário validou perfil do TikTok</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-500">Há 2 minutos</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 rounded-xl bg-[#0b0f19] border border-gray-800 text-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-link"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-white">Cópia do Link efetuada</p>
+                                    <p class="text-xs text-gray-500">Link de compartilhamento copiado</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-500">Há 7 minutos</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-content-security" class="space-y-6 max-w-4xl hidden">
+                <div class="bg-cardBg rounded-2xl border border-amber-500/20 p-6 sm:p-8 shadow-xl">
+                    <h3 class="text-lg font-bold text-white mb-2">Alterar Senha do Administrador</h3>
+                    <p class="text-xs text-gray-400 mb-6">Mantenha sua conta segura alterando sua senha de acesso periodicamente.</p>
+
+                    <form onsubmit="handlePasswordChange(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Senha Atual</label>
+                            <input type="password" required class="block w-full rounded-xl bg-[#0b0f19] border border-gray-800 px-4 py-3 text-white focus:border-amber-500 focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Nova Senha</label>
+                            <input type="password" id="new-pwd" required class="block w-full rounded-xl bg-[#0b0f19] border border-gray-800 px-4 py-3 text-white focus:border-amber-500 focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Confirmar Nova Senha</label>
+                            <input type="password" id="confirm-pwd" required class="block w-full rounded-xl bg-[#0b0f19] border border-gray-800 px-4 py-3 text-white focus:border-amber-500 focus:outline-none text-sm">
+                        </div>
+                        <div class="pt-4 flex justify-end">
+                            <button type="submit" class="px-6 py-3 rounded-xl gold-gradient text-darkBg text-sm font-bold shadow-lg shadow-amber-500/20 hover:opacity-95 transition">
+                                Atualizar Senha
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        function switchTab(tabName, event) {
+            if (event) event.preventDefault();
+
+            document.getElementById('tab-content-config').classList.add('hidden');
+            document.getElementById('tab-content-analytics').classList.add('hidden');
+            document.getElementById('tab-content-security').classList.add('hidden');
+
+            document.getElementById('nav-config').className = 'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800/40 hover:text-white transition';
+            document.getElementById('nav-analytics').className = 'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800/40 hover:text-white transition';
+            document.getElementById('nav-security').className = 'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800/40 hover:text-white transition';
+
+            document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
+            document.getElementById(`nav-${tabName}`).className = 'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 transition';
+
+            const titles = {
+                'config': 'Configurações da Missão',
+                'analytics': 'Estatísticas & Cliques',
+                'security': 'Segurança & Senha'
+            };
+            document.getElementById('page-title').textContent = titles[tabName];
+        }
+
+        let originalValues = {
+            mission: '',
+            ttk: ''
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const banner = document.getElementById('toast-banner');
+            if (banner && banner.classList.contains('hidden') == false) {
+                showToast(banner);
+            }
+
+            const missionEl = document.getElementById('missionLink');
+            const ttkEl = document.getElementById('tiktokProfile');
+
+            if (missionEl) originalValues.mission = missionEl.value;
+            if (ttkEl) originalValues.ttk = ttkEl.value;
+        });
+
+        function showToast(banner) {
+            banner.classList.remove('hidden');
+            setTimeout(() => {
+                hideToast(banner);
+            }, 4000);
+        }
+
+        function hideToast(banner) {
+            if (banner) {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function editField(fieldName) {
+            if (fieldName === 'mission') {
+                const viewMission = document.getElementById('view-mission');
+                const inputContainer = document.getElementById('input-container-mission');
+                if (viewMission) viewMission.remove5 ? viewMission.classList.add('hidden') : viewMission.remove();
+                if (inputContainer) inputContainer.classList.remove('hidden');
+            } else if (fieldName === 'ttk') {
+                const viewTtk = document.getElementById('view-ttk');
+                const inputContainer = document.getElementById('input-container-ttk');
+                if (viewTtk) viewTtk.classList.add('hidden');
+                if (inputContainer) inputContainer.classList.remove('hidden');
+            }
+
+            unlockSaveButton();
+        }
+
+        function checkChanges() {
+            const currentMission = document.getElementById('missionLink') ? document.getElementById('missionLink').value : '';
+            const currentTtk = document.getElementById('tiktokProfile') ? document.getElementById('tiktokProfile').value : '';
+
+            if (currentMission !== originalValues.mission || currentTtk !== originalValues.ttk) {
+                unlockSaveButton();
+            } else {
+                lockSaveButton();
+            }
+        }
+
+        function unlockSaveButton() {
+            const saveBtn = document.getElementById('save-btn');
+            if (saveBtn) {
+                saveBtn.removeAttribute('disabled');
+                saveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                saveBtn.classList.add('shadow-amber-500/25', 'hover:opacity-95');
+            }
+        }
+
+        function lockSaveButton() {
+            const saveBtn = document.getElementById('save-btn');
+            if (saveBtn) {
+                saveBtn.setAttribute('disabled', 'true');
+                saveBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                saveBtn.classList.remove('shadow-amber-500/25', 'hover:opacity-95');
+            }
+        }
+
+    </script>
+</body>
+</html>

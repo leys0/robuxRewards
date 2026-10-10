@@ -3,7 +3,7 @@ package org.example.fakerobuxsite.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "admins")
+@Document(collection = "admin")
 public class Admin {
 
     @Id
